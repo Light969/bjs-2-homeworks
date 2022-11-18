@@ -9,13 +9,14 @@ function getArrayParams(arr) {
   max = -Infinity;
 
   for (let i = 0; i < arr.length; i++) {
-    sum += arr[i];     //
-    if (arr.length === 1) {
+    sum += arr[i];   
+    if (arr[i] < min) {
       min = arr[i];
-      max = arr[i];
-    } else if (arr[i] < min) {
-      min = arr[i];
-    } else if (arr[i] > max) {
+    } 
+  }
+
+  for (let i = 0; i < arr.length; i++) {   
+    if (arr[i] > max) {
       max = arr[i];
     } 
   }
@@ -64,20 +65,18 @@ function worker2(arr) {
   let max = -Infinity;
   
   for (let i = 0; i < arr.length; i++) {
-      
-    if (arr.length === 1) {
+    if (arr[i] < min) {
       min = arr[i];
-      max = arr[i];
-    } else if (arr[i] < min) {
-      min = arr[i];
-    } else if (arr[i] > max) {
+    } 
+  }
+
+  for (let i = 0; i < arr.length; i++) {   
+    if (arr[i] > max) {
       max = arr[i];
     } 
   }
-  console.log(`Максимальное значение: ${max}.`);
-  console.log(`Минимальное значение: ${min}.`);
 
   let difference = Math.abs(max - min);
-  console.log(`Разность значений: ${difference}.`);
+  return difference;
 }
 

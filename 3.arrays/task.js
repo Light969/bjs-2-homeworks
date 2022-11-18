@@ -1,46 +1,19 @@
 function compareArrays(arr1, arr2) {
-  // let result;
 
   // Ваш код
-  let newArray = [JSON.stringify(arr1), JSON.stringify(arr2)];
-  let result = newArray.every((item) => item == JSON.stringify(arr1));
-  
-  console.log(arr1, arr2);
-  console.log(newArray);
-  console.log(result);
+  let result = arr1.every((item, index) => (item, index).arr1 === (item, index).arr2);
 
-  // Почему выдаёт false, когда массивы одинаковые?
-
-  // const newArray = [arr1, arr2];
-  // console.log(newArray);
-  // newArray.every((item) => item === arr1);
-  // console.log(newArray.every((item) => item === arr1));
-
-
-  // Сравниваем массивы по длинне, если длинна не равна, то однозначно false
-  
-  // if (arr1.length === arr2.length) {
-  //   result = true;
-  //   console.log(result);
-  //   console.log('Верное утверждение');
-  // } else {
-  //   result = false;
-  //   console.log(result);
-  //   console.log('Не верное утверждение');
-  // }
+  // let result = arr1.every((item, index) => arr1.item === arr2.item && arr1.index === arr2.index);
 
   return result; // boolean
 }
 
+compareArrays([8,2], [8,2]);
+
 function advancedFilter(arr) {
-  let resultArr;
-  console.log(arr);
-
+  let resultArr = arr.filter(item => item > 0).filter(item => item % 3 === 0).map(item => item * 10);
+ 
   // Ваш код
-  resultArr = arr.filter(item => item > 0).filter(item => item % 3 === 0).map(item => item * 10);
-
-  console.log(resultArr);
-
   return resultArr; // array
 }
 
