@@ -47,21 +47,21 @@ class PrintEditionItem {
   class NovelBook extends Book {
     constructor(author, name, releaseDate, pagesCount) {
       super(author, name, releaseDate, pagesCount);
-      this.type = "Novel";
+      this.type = "novel";
     }
   }
   
   class FantasticBook extends Book {
     constructor(author, name, releaseDate, pagesCount) {
       super(author, name, releaseDate, pagesCount);
-      this.type = "Fantastic";
+      this.type = "fantastic";
     }
   }
   
   class DetectiveBook extends Book {
     constructor(author, name, releaseDate, pagesCount) {
       super(author, name, releaseDate, pagesCount);
-      this.type = "Detective";
+      this.type = "detective";
     }
   }
 
@@ -84,10 +84,9 @@ class Library {
     for (let i = 0; i < Library.length; i++) {
       if (this.books[i][type] === value) {
         return this.books[i];
-      } else {
-        return null;
       }
     }
+    return null;
   }
 
   giveBookByName(bookName) {
@@ -121,6 +120,17 @@ class Library {
   
     addMarks(subject, ...mark) {
       this.subjects.push({ subject: [...mark] });
+    }
+
+    getAverageBySubject(subject) {
+
+      let total = 0;
+      grades = this.subjects;
+      for (let i = 0; i < grades.length; i++) {
+        total += grades[i].subject;
+      }
+      let avg = total / grades.length;
+      returnavg;
     }
   }
   
