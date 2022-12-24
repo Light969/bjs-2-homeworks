@@ -1,20 +1,17 @@
 class AlarmClock {
-  constructor(alarmCollection, timerId) {
+  constructor() {
     this.alarmCollection = [];
-    this.timerId = undefined;
+    this.timerId = null;
   }
-  
+
   addClock(time, text, id) {
-    if (this.alarmCollection.some(id => id === undefined)) {
-      throw new Error ('Параметр id не передан');
-    } else if (this.alarmCollection.some(id => id === id)) {
-      throw new Error ('Будильник с таким id уже присутствует');
+    if (this.addClock.id === undefined) {
+      throw new Error('Параметр id не передан');
     } else {
-      this.alarmCollection.push({ time, text });
-      this.timerId = id;
+      this.alarmCollection.push({ time, text, id });
+      // this.timerId = id;
+      // this.alarmCollection.push({time, text, id});
       console.log('Новый будильник 1');
     }
   }
-
-
 }

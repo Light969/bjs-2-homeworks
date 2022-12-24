@@ -92,16 +92,10 @@ class Library {
   giveBookByName(bookName) {
     for (let i = 0; i < Library.length; i++) {
       if (this.books[i].name === bookName) {
-        // delete this.books[i];
-        // delete(books[i]);
-        delete (this.books[i]);
-        // this.books.splice(i, 1);
-        // return this.books.splice(i, 1)[0];
-        // return library;                  
-      } else {
-        return null;
+        this.books.splice(i, 1);
       }
     }
+    return null;
   }
 }
 
@@ -112,38 +106,36 @@ class Library {
       this.name = name;
       this.gender = gender;
       this.age = age;
-      this.subjects = [];
-    }
-    //  addSubject(subject) {
-    // 	this.subjects.push([subject]);
-    //   }
-  
-    addMarks(subject, ...mark) {
-      this.subjects.push({ subject: [...mark] });
+      this.subjects = {};
     }
 
-    getAverageBySubject(subject) {
-
-      let total = 0;
-      grades = this.subjects;
-      for (let i = 0; i < grades.length; i++) {
-        total += grades[i].subject;
+    addMark(mark, subject) {
+      if (mark > 5) {
+        console.log('Ошибка, оценка должна быть числом от 1 до 5');
+      } else if (this.subjects[subject] === undefined) {
+        this.subjects[subject] = [mark];
+      } else {
+        this.subjects[subject].push(mark);
       }
-      let avg = total / grades.length;
-      returnavg;
+    }
+  
+    getAverageBySubject(subject) {
+      if (this.subjects[subject] === undefined) {
+        console.log('Несуществующий предмет');
+      } else {
+        let total = 0;
+        let grades = this.subjects[subject];
+        for (let i = 0; i < grades.length; i++) {
+          total += grades[i];
+        }
+        let avg = total / grades.length;
+        console.log('Средний балл по предмету ' + avg);
+        return avg;
+      }
+    }
+
+    exclude(reason) {
+      console.log(reason);
     }
   }
   
-  let student1 = new Student('Mike', 'male', 20);
-  let student2 = new Student('Katya', 'female', 19);
-  let student3 = new Student('Oleg', 'male', 21);
-  
-  console.log([student1, student2, student3]);
-  
-  // student1.addSubject('algebra');
-  // student1.addSubject('geometry');
-  
-  student2.addMarks('algebra', 5);
-  student2.addMarks('geometry', 5, 4, 5);
-  console.log([student1, student2, student3]);
-  console.log(student2);
