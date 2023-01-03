@@ -90,9 +90,9 @@ class Library {
   }
 
   giveBookByName(bookName) {
-    for (let i = 0; i < Library.length; i++) {
+    for (let i = 0; i < this.books.length; i++) {
       if (this.books[i].name === bookName) {
-        this.books.splice(i, 1);
+        return this.books[i];
       }
     }
     return null;
@@ -132,6 +132,24 @@ class Library {
         console.log('Средний балл по предмету ' + avg);
         return avg;
       }
+    }
+
+    getAverage() {
+      var counter = 0;
+      let sum = 0;
+      for (let key in this.subjects) {
+        let total = 0;
+        let grades = this.subjects[key];
+        for (let i = 0; i < grades.length; i++) {
+          total += grades[i];
+        }
+        let avg = total / grades.length;
+  
+        sum += avg;
+        counter++;
+      }
+      console.log('Средний балл по всем предметам ' + sum / counter);
+      return sum / counter;
     }
 
     exclude(reason) {
