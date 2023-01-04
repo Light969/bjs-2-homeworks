@@ -1,22 +1,17 @@
 function parseCount(number) {
   let result = Number(number);
   if (Number.isNaN(result)) {
-    throw new Error('Не верное значение');
+    throw new Error('Невалидное значение');
   }
-  console.log(result);
   return result;
 }
 
 function validateCount(number) {
   try {
-    console.log('Внутри блока try');
     return parseCount(number);
   } catch (error) {
-    console.log(error);
-    console.log('Перехватили ошибку');
-  } finally {
-    console.log('Внутри блока finally');
-  }
+    return error;
+  } 
 }
 
 
@@ -29,21 +24,17 @@ function validateCount(number) {
       this.c = c;
   
       if (a + b < c || a + c < b || b + c < a) {
-        throw 'Треугольник с такими сторонами не существует';
+        throw new Error('Треугольник с такими сторонами не существует');
       }
     }
     
     getPerimeter() {
-      console.log(this.a + this.b + this.c);
       return this.a + this.b + this.c;
     }
   
     getArea() {
       let p = this.getPerimeter() / 2;
-      let area = Number((Math.sqrt(p * (p - this.a) * (p - this.b) * (p - this.c))).toFixed(2));
-      console.log(area);
-      console.log(typeof area);
-      return area;
+      return Number((Math.sqrt(p * (p - this.a) * (p - this.b) * (p - this.c))).toFixed(3));
     }
   }
 
@@ -51,14 +42,17 @@ function validateCount(number) {
 
    function getTriangle(a, b, c) {
     try {
-      console.log('Внутри блока try');
       return new Triangle(a, b, c);
     } catch (error) {
       console.log(error);
-      console.log('Перехватили ошибку');
-    } finally {
-      console.log('Внутри блока finally');
-      new Triangle(a, b, c).getPerimeter();
-      new Triangle(a, b, c).getArea();
-    }
+      
+      return {
+        getArea() {
+        return 'Ошибка! Треугольник не существует';
+        },
+        getPerimeter() {
+        return 'Ошибка! Треугольник не существует';
+        }
+      }
+    } 
   }
