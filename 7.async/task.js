@@ -14,39 +14,31 @@ class AlarmClock {
       console.log('Новый будильник');
     }
   }
-  // removeClock(id) {
-  //   if (this.alarmCollection.filter(clock => clock.id === id)) {
-  //     console.log('Звонок успешно удалён');
-  //     return this.alarmCollection.splice(clock.id, 1)[0];
-  //   }
-  //     console.log('Звонок не найден')
-  // }
 
   removeClock(id) {
-    for (let i = 0; i < this.alarmCollection.length; i++) {
-      if (this.alarmCollection[i].id === id) {
-        console.log('Будильник успешно удалён');
-        return this.alarmCollection.splice(i, 1)[0]; 
-      }
+    debugger;
+    if (this.alarmCollection.filter(clock => clock.id != id)) {
+      this.alarmCollection = this.alarmCollection.filter(clock => clock.id != id);
+      console.log('Будильник успешно удалён');
+    } else {
+      console.log('Будильник не найден')
     }
-    console.log('Будильник не найден')
   }
 
   getCurrentFormattedTime() {
-    let now = new Date();
-    let nowHours = String(now.getHours());
-    let nowMinutes = String(now.getMinutes());
-    let timeNow = nowHours + ':' + nowMinutes;
-    return console.log('Текущее время: ' + timeNow);
+    let now = new Date().toLocaleTimeString("ru-Ru", {
+      hour: "2-digit", 
+      minute: "2-digit"
+    });
+    console.log('Текущее время: ' + now);
+    return now;
   }
 
+  // Не работает
   // start() {
-  //   checkClock() {
-  //      for (let i = 0; i < this.alarmCollection.length; i++) {
-  //       if (this.alarmCollection[i].time === timeNow) {
-  //         return this.alarmCollection[i].text;
-  //       }
-  //     }
+  //   if (this.timerId === null) { 
+  //     this.alarmCollection.forEach(checkClock(clock => clock.time === getCurrentFormattedTime()) {this.timerId = clock.func}); 
   //   }
   // }
+
 }
