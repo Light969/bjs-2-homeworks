@@ -16,16 +16,9 @@ class AlarmClock {
   }
 
   removeClock(id) {
-    let l = this.alarmCollection.length;
-    if (this.alarmCollection.filter(clock => clock.id != id)) {
-      this.alarmCollection = this.alarmCollection.filter(clock => clock.id != id);
-	  if (this.alarmCollection.length === l) {
-		  console.log('Будильник не найден');
-		  return this.alarmCollection;
-	  }  
-      console.log('Будильник успешно удалён');
-	    return this.alarmCollection;
-    } 
+    let L = this.alarmCollection.length;
+    this.alarmCollection = this.alarmCollection.filter(clock => clock.id != id);
+	  return this.alarmCollection.length != L;
   }
 
   getCurrentFormattedTime() {
@@ -40,17 +33,18 @@ class AlarmClock {
   start() {
     if (this.timerId === null) { 
       return console.log('Значение отсутствует');  
-    } this.alarmCollection.forEach(func(clock => clock.time != getCurrentFormattedTime()) { console.log(clock.time); });
+    } this.timerId = setInterval(() => this.alarmCollection.forEach(phoneAlarm.checkClock()), 2000);
   } 
 
-  // start() {
-  //   if (this.timerId === null) {
-  //     // this.alarmCollection.forEach(checkClock(clock => clock.time === getCurrentFormattedTime()) {this.timerId = clock.func}); 
+  checkClock() {
+	  for (let i = 0; i < this.alarmCollection.length; i++) { 
+		if (this.alarmCollection[i].time === phoneAlarm.getCurrentFormattedTime()) {
+		    return this.alarmCollection[i].func;  
+		}
+	  }
+  }
 
-  //     // this.timerId = this.alarmCollection[0].func;
-  //     // console.log(this.timerId);
-  //     console.log('Будильник');
-  //   }
-  // }
+  // Пока не получилось реализовать стрелочную функцию 
+  //checkClock = () => this.alarmCollection[i].time === phoneAlarm.getCurrentFormattedTime() ? this.alarmCollection[i].func : undefined;
 
 }
