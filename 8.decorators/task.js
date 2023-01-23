@@ -27,6 +27,24 @@ function cachingDecoratorNew(func) {
 }
 
 
-function debounceDecoratorNew(func) {
-  // Ваш код
+function debounceDecoratorNew(func, dalay) {
+  let timeoutId = null;
+  let history = [];
+  let count = 0;
+
+  return function(...args) {
+    history.push(args);
+    count = count += 1;
+    if (timeoutId) {
+      console.log('Удалилитекущийтаймаут');
+      clearTimeout(timeoutId);
+    }
+    console.log('Создаёмновыйтаймаут');
+    timeoutId = setTimeout(() => {
+      console.log(func(...args));
+      console.log('Вызваликолбек');
+    }, dalay);
+  }
 }
+
+const sendSignal = debounceDecoratorNew(sum, 1000);

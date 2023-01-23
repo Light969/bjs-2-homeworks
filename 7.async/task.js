@@ -16,9 +16,9 @@ class AlarmClock {
   }
 
   removeClock(id) {
-    let L = this.alarmCollection.length;
+    let lengthAlarmClock = this.alarmCollection.length;
     this.alarmCollection = this.alarmCollection.filter(clock => clock.id != id);
-	  return this.alarmCollection.length != L;
+	  return this.alarmCollection.length != lengthAlarmClock;
   }
 
   getCurrentFormattedTime() {
@@ -30,21 +30,42 @@ class AlarmClock {
     return now;
   }
 
+  // start() {
+  //   if (this.timerId === null) { 
+  //     return console.log('Значение отсутствует');  
+  //   } 
+  //     this.timerId = setInterval(() => this.alarmCollection.forEach(phoneAlarm.checkClock()), 2000);
+  // } 
+
+  // checkClock() {
+	//  for (let i = 0; i < this.alarmCollection.length; i++) { 
+	// 	if (this.alarmCollection[i].time === phoneAlarm.getCurrentFormattedTime()) {
+	// 	    return this.alarmCollection[i].func;  
+	// 	}
+	//  }
+  // }
+
   start() {
-    if (this.timerId === null) { 
-      return console.log('Значение отсутствует');  
-    } this.timerId = setInterval(() => this.alarmCollection.forEach(phoneAlarm.checkClock()), 2000);
-  } 
-
-  checkClock() {
-	  for (let i = 0; i < this.alarmCollection.length; i++) { 
-		if (this.alarmCollection[i].time === phoneAlarm.getCurrentFormattedTime()) {
-		    return this.alarmCollection[i].func;  
-		}
-	  }
+    if (this.timerId === null) {
+      return console.log('Значение отсутствует');
+    }
+    this.timerId = setInterval(() => this.alarmCollection.forEach(() => this.alarmCollection.time === phoneAlarm.getCurrentFormattedTime() ? this.alarmCollection.func : undefined), 2000);
   }
+  
 
-  // Пока не получилось реализовать стрелочную функцию 
-  //checkClock = () => this.alarmCollection[i].time === phoneAlarm.getCurrentFormattedTime() ? this.alarmCollection[i].func : undefined;
-
+  stop() {
+    if (this.timerId != null) {
+      clearInterval(this.timerId);
+      this.timerId = null;
+      }	
+    }
+    
+  printAlarms() {
+    this.alarmCollection.forEach(clock => console.log({id: clock.id, time: clock.time}));  
+    }
+  
+  clearAlarms() {
+    phoneAlarm.stop(); 
+    this.alarmCollection = [];
+    }
 }
