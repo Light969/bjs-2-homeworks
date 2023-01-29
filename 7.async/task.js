@@ -18,7 +18,7 @@ class AlarmClock {
   removeClock(id) {
     let lengthAlarmClock = this.alarmCollection.length;
     this.alarmCollection = this.alarmCollection.filter(clock => clock.id != id);
-	  return this.alarmCollection.length != lengthAlarmClock;
+    return this.alarmCollection.length != lengthAlarmClock;
   }
 
   getCurrentFormattedTime() {
@@ -49,7 +49,8 @@ class AlarmClock {
     if (this.timerId === null) {
       return console.log('Значение отсутствует');
     }
-    this.timerId = setInterval(() => this.alarmCollection.forEach(() => this.alarmCollection.time === phoneAlarm.getCurrentFormattedTime() ? this.alarmCollection.func : undefined), 2000);
+    // this.timerId = setInterval(() => this.alarmCollection.forEach(() => this.alarmCollection.time === this.getCurrentFormattedTime() ? this.alarmCollection.func : undefined), 2000);
+    this.timerId = setInterval(() => this.alarmCollection.forEach(clock => clock.time === this.getCurrentFormattedTime() ? clock.func() : undefined), 2000);
   }
   
 
@@ -65,7 +66,7 @@ class AlarmClock {
     }
   
   clearAlarms() {
-    phoneAlarm.stop(); 
+    this.stop(); 
     this.alarmCollection = [];
     }
 }
