@@ -49,7 +49,6 @@ class AlarmClock {
     if (this.timerId === null) {
       return console.log('Значение отсутствует');
     }
-    // this.timerId = setInterval(() => this.alarmCollection.forEach(() => this.alarmCollection.time === this.getCurrentFormattedTime() ? this.alarmCollection.func : undefined), 2000);
     this.timerId = setInterval(() => this.alarmCollection.forEach(clock => clock.time === this.getCurrentFormattedTime() ? clock.func() : undefined), 2000);
   }
   
