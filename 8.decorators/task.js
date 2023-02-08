@@ -13,9 +13,7 @@ function cachingDecoratorNew(func) {
       // console.log("Из кэша: " + objectInCache.value); // индекс нам известен, по индексу в массиве лежит объект, как получить нужное значение?
       return "Из кэша: " + objectInCache.value;
     }
-
     let result = func(...args); // в кэше результата нет - придётся считать
-
     cache.push({ hash: hash, value: result }); // добавляем элемент с правильной структурой
     if (cache.length > 5) { 
       cache.shift() // если слишком много элементов в кэше надо удалить самый старый (первый) 
@@ -27,24 +25,32 @@ function cachingDecoratorNew(func) {
 }
 
 
-function debounceDecoratorNew(func, dalay) {
-  function wrapper(...args) {  
-    wrapper.allCount = wrapper.allCount +=1;
-    let timeoutId = null;
-    return function(...args) {
-      if (timeoutId) {
-      // console.log('Удалили текущий таймаут'); 
-      clearTimeout(timeoutId);
-      }
-      // console.log('Создаём новый таймаут'); 
-      timeoutId = setTimeout(() => {
-      console.log(func(...args));
-      // console.log('Вызвали колбек');
-      }, dalay); 
-    }
-  }
-    wrapper.allCount = 0;
-    return wrapper;  
-  }
+sum = (...args) => args.reduce((arg, item) => arg + item, 0);
 
-const sendSignal = debounceDecoratorNew(sum, 1000);
+function debounceDecoratorNew(func, dalay) {
+let timeoutId = null;
+	
+  function wrapper(...args) {  
+  wrapper.allCount = wrapper.allCount +=1;
+    if (timeoutId) {
+      console.log('Удалили текущий таймаут'); 
+      clearTimeout(timeoutId);
+    }	  
+    console.log('Создаём новый таймаут'); 
+    timeoutId = setTimeout(() => {	  
+      if (timeoutId === null) {
+        wrapper.count = wrapper.count +=1;   
+      } else {
+        wrapper.count = wrapper.count +=1;
+      }		  
+    console.log('Вызвали колбек');
+    }, dalay); 
+    return func(...args); 	
+  }  
+
+wrapper.count = 0;
+wrapper.allCount = 0;
+return wrapper;  
+}
+
+const sendSignal = debounceDecoratorNew(sum, 10000);

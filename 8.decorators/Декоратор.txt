@@ -1,0 +1,223 @@
+1я задача
+
+sum = (...args) => args.reduce((arg, item) => arg + item, 0);
+const cachedSum = cachingDecoratorNew(sum);
+
+function cachingDecoratorNew(func) {
+  let cache = [];
+
+  function wrapper(...args) {
+    const hash = args.join(','); // получаем правильный хэш
+    // console.log(hash);
+    let objectInCache = cache.find((item) => item.hash === hash); // ищем элемент, хэш которого равен нашему хэшу
+    if (objectInCache) { // если элемент не найден (! удалил перед названием функции)
+      // console.log(objectInCache);
+      console.log("Из кэша: " + objectInCache.value); // индекс нам известен, по индексу в массиве лежит объект, как получить нужное значение?
+      return "Из кэша: " + objectInCache.value;
+    }
+
+    let result = func(...args); // в кэше результата нет - придётся считать
+
+    cache.push({ hash: hash, value: result }); // добавляем элемент с правильной структурой
+    if (cache.length > 5) { 
+      cache.shift() // если слишком много элементов в кэше надо удалить самый старый (первый) 
+    }
+    console.log("Вычисляем: " + result);
+    return "Вычисляем: " + result;
+  }
+  return wrapper;
+}
+
+
+// function debounceDecoratorNew(func) {
+//  return function(...args) {
+//	  setTimeout(() => console.log(func(...args)), 2000);
+//  }
+//}
+//const debounceSum = debounceDecoratorNew(sum);
+//debounceSum(1,2,3);
+//debounceSum(1,2,3,45,436);
+
+
+
+
+// Исходный код. - Необходимо Доработать с учётом материала ШПИОН
+
+function debounceDecoratorNew(func, dalay) {
+  let timeoutId = null;
+  return function(...args) {
+	  if (timeoutId) {
+		console.log('Удалили текущий таймаут'); 
+		clearTimeout(timeoutId);
+	  }
+	  console.log('Создаём новый таймаут'); 
+	  timeoutId = setTimeout(() => {
+		console.log(func(...args));
+		console.log('Вызвали колбек');
+	  }, dalay); 
+  }
+}
+
+const sendSignal = debounceDecoratorNew(sum, 5000);
+
+// sendSignal(1,2,3);
+// sendSignal(1,2,3,45,436);
+// sendSignal(1,2,3,4,15,75);
+
+
+// Шпион
+function spyDecorator(func) {
+	function wrapper(...args) {
+		wrapper.history.push(args);
+		return func(...args);
+	}
+	wrapper.history = [];
+	return wrapper;
+}
+
+let spy = spyDecorator(sum);
+
+spy(1,2);
+
+spy(6,10);
+spy.history;
+
+
+
+// Немного дополненный шпион
+sum = (...args) => args.reduce((arg, item) => arg + item, 0);
+
+function spyDecorator(func) {
+	function wrapper(...args) {
+		wrapper.history.push(args);
+		wrapper.count = wrapper.count +=1;
+		return func(...args);
+	}
+	wrapper.history = [];
+	wrapper.count = 0;
+	return wrapper;
+}
+
+let upgradedSendSignal = spyDecorator(sum);
+
+upgradedSendSignal(1,2);
+
+upgradedSendSignal(6,10);
+upgradedSendSignal(8,20);
+upgradedSendSignal.history;
+upgradedSendSignal.count
+
+
+ЗАДАЧА 2 январь2023 (итерация 1)
+// ЗАДАЧА 2
+
+sum = (...args) => args.reduce((arg, item) => arg + item, 0);
+
+function debounceDecoratorNew(func, dalay) {
+	
+	let timeoutId = null;
+	let history = [];
+	let count = 0;
+    
+  return function(...args) {
+	  
+	history.push(args);
+	count = count +=1;
+	  
+	  if (timeoutId) {
+		console.log('Удалили текущий таймаут'); 
+		clearTimeout(timeoutId);
+	  }
+	  console.log('Создаём новый таймаут'); 
+	  
+	  timeoutId = setTimeout(() => {
+		  
+		console.log(func(...args));
+		console.log('Вызвали колбек');
+		console.log(history);
+		console.log(count);
+		
+	  }, dalay); 
+	  
+  }
+  
+}
+
+const sendSignal = debounceDecoratorNew(sum, 1000);
+
+sendSignal(1,2,3);
+sendSignal(1,2,3,45,436);
+sendSignal(1,2,3,4,15,75);
+
+___________________________________
+Итерация 2
+sum = (...args) => args.reduce((arg, item) => arg + item, 0);
+
+function debounceDecoratorNew(func, dalay) {
+function wrapper(...args) {  
+  wrapper.history.push(args);
+  wrapper.count = wrapper.count +=1;
+  let timeoutId = null;
+  return function(...args) {
+	  if (timeoutId) {
+		console.log('Удалили текущий таймаут'); 
+		clearTimeout(timeoutId);
+	  }
+	  console.log('Создаём новый таймаут'); 
+	  timeoutId = setTimeout(() => {
+		console.log(func(...args));
+		console.log('Вызвали колбек');
+	  }, dalay); 
+  }
+}
+	wrapper.history = [];
+	wrapper.count = 0;
+	return wrapper;  
+}
+
+const sendSignal = debounceDecoratorNew(sum, 1000);
+
+sendSignal(1,2,3);
+sendSignal(1,2,3,45,436);
+sendSignal(1,2,3,4,15,75);
+
+sendSignal.history;
+sendSignal.count
+_____________________________________
+//Итерация 3
+sum = (...args) => args.reduce((arg, item) => arg + item, 0);
+
+function debounceDecoratorNew(func, dalay) {
+let timeoutId = null;
+	
+  function wrapper(...args) {  
+  wrapper.allCount = wrapper.allCount +=1;
+    if (timeoutId) {
+      console.log('Удалили текущий таймаут'); 
+      clearTimeout(timeoutId);
+    }	  
+    console.log('Создаём новый таймаут'); 
+    timeoutId = setTimeout(() => {	  
+      if (timeoutId === null) {
+        wrapper.count = wrapper.count +=1;   
+      } else {
+        wrapper.count = wrapper.count +=1;
+      }		  
+    console.log('Вызвали колбек');
+    }, dalay); 
+    return func(...args); 	
+  }  
+
+wrapper.count = 0;
+wrapper.allCount = 0;
+return wrapper;  
+}
+
+const sendSignal = debounceDecoratorNew(sum, 10000);
+
+sendSignal(1,2,3);
+sendSignal(1,2,3,45,436);
+sendSignal(1,2,3,4,15,75);
+
+sendSignal.count;
+sendSignal.allCount
