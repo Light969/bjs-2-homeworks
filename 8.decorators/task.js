@@ -29,22 +29,22 @@ sum = (...args) => args.reduce((arg, item) => arg + item, 0);
 
 function debounceDecoratorNew(func, dalay) {
 let timeoutId = null;
-	
   function wrapper(...args) {  
-  wrapper.allCount = wrapper.allCount +=1;
+  wrapper.allCount ++;
     if (timeoutId) {
       console.log('Удалили текущий таймаут'); 
       clearTimeout(timeoutId);
     }	  
     console.log('Создаём новый таймаут'); 
     timeoutId = setTimeout(() => {	  
-      if (timeoutId === null) {
-        wrapper.count = wrapper.count +=1;   
-      } else {
-        wrapper.count = wrapper.count +=1;
-      }		  
+      wrapper.count ++;
+      func(...args);  
     console.log('Вызвали колбек');
     }, dalay); 
+    if (timeoutId === null) {
+      wrapper.count ++; 
+      func(...args);  
+    }
     return func(...args); 	
   }  
 
@@ -53,4 +53,8 @@ wrapper.allCount = 0;
 return wrapper;  
 }
 
-const sendSignal = debounceDecoratorNew(sum, 10000);
+const sendSignal = debounceDecoratorNew(sum, 6000);
+
+sendSignal(1,2,3);
+sendSignal.count;
+sendSignal.allCount
